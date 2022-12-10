@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
+      title: 'File Compressor',
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Material App Bar'),
