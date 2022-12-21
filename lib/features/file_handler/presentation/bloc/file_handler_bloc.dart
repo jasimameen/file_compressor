@@ -11,7 +11,8 @@ part 'file_handler_bloc.freezed.dart';
 
 class FileHandlerBloc extends Bloc<FileHandlerEvent, FileHandlerState> {
   final PickFileFromLocalStorage _pickFileFromLocalStorage;
-  FileHandlerBloc(this._pickFileFromLocalStorage) : super(FileHandlerState.initial()) {
+  FileHandlerBloc(this._pickFileFromLocalStorage)
+      : super(FileHandlerState.initial()) {
     on<_PickFile>((event, emit) async {
       // loading state
       emit(state.copyWith(isLoading: true));
@@ -20,10 +21,10 @@ class FileHandlerBloc extends Bloc<FileHandlerEvent, FileHandlerState> {
       final failureOrSuccess = await _pickFileFromLocalStorage(NoParams());
 
       // handle data
-      failureOrSuccess.fold(
-        (failure) => emit(state.copyWith(isError: true, isLoading: false)),
-        (deviceFile) => emit(
-          state.copyWith(
+      emit(
+        failureOrSuccess.fold(
+          (failure) => state.copyWith(isError: true, isLoading: false),
+          (deviceFile) => state.copyWith(
             deviceFile: deviceFile,
             isFilePicked: true,
             isLoading: false,
