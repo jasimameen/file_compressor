@@ -1,4 +1,5 @@
 import 'package:file_compressor/features/data_compression/presentation/bloc/datacompress_bloc.dart';
+import 'package:file_compressor/features/file_handler/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,16 +53,45 @@ class SelectFileWidget extends StatelessWidget {
         color: Colors.white.withOpacity(.2),
         borderRadius: BorderRadius.circular(60),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          Icon(CupertinoIcons.folder),
-          Text('Type: TXT'),
-          Text('Size: 1.2 MB'),
-          Text("my_file.txt"),
-          SelectFile()
-        ],
-      ),
+      child: BlocBuilder<FileHandlerBloc, FileHandlerState>(
+          builder: (context, state) {
+        final file = state.deviceFile;
+
+        // laoding state
+        if (state.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+
+        if (file == null || state.isError || !state.isFilePicked) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(
+                CupertinoIcons.folder,
+                size: screenWidth * .2,
+              ),
+              const SelectFile()
+            ],
+          );
+        }
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Icon(
+              CupertinoIcons.folder,
+              size: screenWidth * .2,
+            ),
+            Text('Type: ${file.type}'),
+            Text('Size: ${file.size}'),
+            Text(file.name),
+            const SelectFile()
+          ],
+        );
+      }),
     );
   }
 }
