@@ -1,15 +1,17 @@
 import 'package:file_compressor/core/utils/toast_message.dart';
-import 'package:file_compressor/features/file_picker/data/repositories/file_handler_repository_impl.dart';
-import 'package:file_compressor/features/file_picker/domain/usecases/pick_file_from_Device.dart';
+import 'package:file_compressor/features/file_handler/data/datasources/file_handler_local_datasource.dart.dart';
+import 'package:file_compressor/features/file_handler/data/repositories/file_handler_repository_impl.dart';
+import 'package:file_compressor/features/file_handler/presentation/bloc/file_handler_bloc.dart';
+import 'package:file_compressor/injection.dart';
 import 'package:file_compressor/routes.dart';
 import 'package:file_compressor/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/data_compression/presentation/bloc/datacompress_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  initInjection();
   runApp(const MyApp());
 }
 
@@ -18,9 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          DatacompressBloc(PickFileFromDevice(FileHandlerRepositoryImpl())),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<FileHandlerBloc>(),
+        )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         scaffoldMessengerKey: ToastMessenger.instance,

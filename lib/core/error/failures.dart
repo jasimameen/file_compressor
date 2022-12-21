@@ -7,3 +7,7 @@ abstract class Failure {
 class ClientFailure extends Failure {
   ClientFailure(String message) : super(message);
 }
+
+class FilePickerFailure extends Failure {
+  FilePickerFailure(super.message);
+}
