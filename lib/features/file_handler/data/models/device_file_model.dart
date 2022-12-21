@@ -1,4 +1,4 @@
-import 'package:file_compressor/features/file_handler/domain/entities/device_file.dart';
+import '../../domain/entities/device_file.dart';
 import 'package:file_picker/file_picker.dart';
 
 class DeviceFileModel extends DeviceFile {

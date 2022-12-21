@@ -1,5 +1,6 @@
-import 'package:file_compressor/features/data_compression/presentation/bloc/datacompress_bloc.dart';
-import 'package:file_compressor/features/file_handler/file_picker.dart';
+import '../bloc/compression_bloc.dart';
+import '../widgets/custom_button.dart';
+import '../../../file_handler/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,15 +22,26 @@ class HomePage extends StatelessWidget {
           children: [
             const SelectFileWidget(),
 
-            // button
-            ElevatedButton(
-              onPressed: () {
-                // compress functionality
+            // Compress Button
+            CustomButton(
+              text: 'Compress',
+              color: Colors.green,
+              onTap: () {
                 context
-                    .read<DatacompressBloc>()
-                    .add(const DatacompressEvent.started());
+                    .read<CompressionBloc>()
+                    .add(const CompressionEvent.compress());
               },
-              child: const Text('Compress'),
+            ),
+
+            // Decompress Button
+            CustomButton(
+              text: 'Decompress',
+              color: Colors.blue,
+              onTap: () {
+                context
+                    .read<CompressionBloc>()
+                    .add(const CompressionEvent.decompress());
+              },
             ),
           ],
         ),
@@ -63,7 +75,6 @@ class SelectFileWidget extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-
 
         if (file == null || state.isError || !state.isFilePicked) {
           return Column(

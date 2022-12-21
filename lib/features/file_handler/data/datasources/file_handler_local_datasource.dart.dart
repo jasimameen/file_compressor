@@ -1,5 +1,5 @@
-import 'package:file_compressor/core/error/exceptions.dart';
-import 'package:file_compressor/features/file_handler/data/models/device_file_model.dart';
+import '../../../../core/error/exceptions.dart';
+import '../models/device_file_model.dart';
 import 'package:file_picker/file_picker.dart';
 
 abstract class FileHandlerLocalDataSource {

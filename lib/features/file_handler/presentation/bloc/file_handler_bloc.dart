@@ -1,9 +1,7 @@
-import 'package:file_compressor/core/usecases/usecases.dart';
-import 'package:file_compressor/features/file_handler/file_picker.dart';
+import '../../../../core/usecases/usecases.dart';
+import '../../file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../domain/entities/device_file.dart';
-import '../../domain/repositories/files_handler_repository.dart';
 
 part 'file_handler_event.dart';
 part 'file_handler_state.dart';

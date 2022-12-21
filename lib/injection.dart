@@ -1,10 +1,10 @@
-import 'package:file_compressor/features/file_handler/data/datasources/file_handler_local_datasource.dart.dart';
-import 'package:file_compressor/features/file_handler/domain/repositories/files_handler_repository.dart';
-import 'package:file_compressor/features/file_handler/presentation/bloc/file_handler_bloc.dart';
+import 'features/file_handler/data/datasources/file_handler_local_datasource.dart.dart';
+import 'features/file_handler/domain/repositories/files_handler_repository.dart';
+import 'features/file_handler/presentation/bloc/file_handler_bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get_it/get_it.dart';
 
-import 'features/data_compression/presentation/bloc/datacompress_bloc.dart';
+import 'features/data_compression/presentation/bloc/compression_bloc.dart';
 import 'features/file_handler/data/repositories/file_handler_repository_impl.dart';
 import 'features/file_handler/domain/usecases/pick_file_from_local_storage.dart';
 
@@ -12,8 +12,8 @@ GetIt sl = GetIt.instance;
 
 void initInjection() {
   _initFileHandlerInjection();
+  _initCompressionInjection();
 }
-
 
 //* ----- File Handler ----- *//
 void _initFileHandlerInjection() {
@@ -35,11 +35,10 @@ void _initFileHandlerInjection() {
   sl.registerLazySingleton(() => FilePicker.platform);
 }
 
-
 //* ----- Compresiion ----- *//
 void _initCompressionInjection() {
   // bloc
-  sl.registerLazySingleton(() => DatacompressBloc(sl()));
+  sl.registerLazySingleton(() => CompressionBloc(sl()));
 
   // usecase
 
@@ -48,5 +47,4 @@ void _initCompressionInjection() {
   // data source
 
   //! external
-
 }
