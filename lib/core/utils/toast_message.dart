@@ -13,7 +13,13 @@ class Toast extends ToastMessenger {
     ToastMessenger.instance.currentState!.showSnackBar(
       SnackBar(
         content: Text(message),
-        elevation: 5,
+        behavior: SnackBarBehavior.floating,
+        shape: const StadiumBorder(),
+        action: SnackBarAction(
+          label: 'close',
+          onPressed: () =>
+              ToastMessenger.instance.currentState!.hideCurrentSnackBar(),
+        ),
       ),
     );
   }
