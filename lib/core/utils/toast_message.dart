@@ -8,14 +8,18 @@ abstract class ToastMessenger {
 }
 
 class Toast extends ToastMessenger {
-  static Toast instance =  Toast();
+  static Toast instance = Toast();
 
   @override
   void show(String message) async {
     ToastMessenger.instance.currentState!.removeCurrentSnackBar();
     ToastMessenger.instance.currentState!.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.yellow),
+        ),
+        backgroundColor: Colors.grey[850],
         behavior: SnackBarBehavior.floating,
         shape: const StadiumBorder(),
         action: SnackBarAction(
