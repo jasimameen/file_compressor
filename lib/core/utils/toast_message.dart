@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 abstract class ToastMessenger {
-  static GlobalKey<ScaffoldMessengerState> get instance =>
+  static GlobalKey<ScaffoldMessengerState> instance =
       GlobalKey<ScaffoldMessengerState>();
 
-  void showtoast(String message);
+  void show(String message);
 }
 
 class Toast extends ToastMessenger {
+  static Toast instance =  Toast();
+
   @override
-  void showtoast(String message) {
+  void show(String message) async {
+    ToastMessenger.instance.currentState!.removeCurrentSnackBar();
     ToastMessenger.instance.currentState!.showSnackBar(
       SnackBar(
         content: Text(message),

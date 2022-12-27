@@ -1,9 +1,15 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart' as path;
+
 import '../../../../core/error/exceptions.dart';
 import '../models/device_file_model.dart';
-import 'package:file_picker/file_picker.dart';
 
 abstract class FileHandlerLocalDataSource {
   Future<DeviceFileModel> pickSingleFile();
+  Future<bool> saveFile(String fileName, List<int> bytes);
 }
 
 class FileHandlerLocalDataSourceImpl implements FileHandlerLocalDataSource {
@@ -22,6 +28,30 @@ class FileHandlerLocalDataSourceImpl implements FileHandlerLocalDataSource {
       return DeviceFileModel.fromPlatformFile(file);
     } catch (err) {
       throw FilePickerException(err.toString());
+    }
+  }
+
+  @override
+  Future<bool> saveFile(String fileName, List<int> bytes) async {
+    try {
+      final   dir = await path.getExternalStorageDirectory(); // only on Android
+
+      // create folder
+      final folder =
+          await Directory("${dir!.path}/Compressed Files")
+              .create(recursive: true);
+
+      File dummyFile = File('${folder.path}/$fileName');
+
+      log(dummyFile.path);
+
+      // write some text inside it
+      await dummyFile.writeAsBytes(bytes);
+
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
     }
   }
 }

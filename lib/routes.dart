@@ -1,5 +1,6 @@
-import 'features/data_compression/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
+
+import 'features/data_compression/presentation/pages/home_page.dart';
 
 String? initialRoute = HomePage.routeName;
 

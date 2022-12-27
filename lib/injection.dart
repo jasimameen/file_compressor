@@ -1,3 +1,5 @@
+import 'package:file_compressor/features/file_handler/domain/usecases/save_to_local_storage.dart';
+
 import 'features/file_handler/data/datasources/file_handler_local_datasource.dart.dart';
 import 'features/file_handler/domain/repositories/files_handler_repository.dart';
 import 'features/file_handler/presentation/bloc/file_handler_bloc.dart';
@@ -18,10 +20,11 @@ void initInjection() {
 //* ----- File Handler ----- *//
 void _initFileHandlerInjection() {
   // bloc
-  sl.registerLazySingleton(() => FileHandlerBloc(sl()));
+  sl.registerLazySingleton(() => FileHandlerBloc(sl(), sl()));
 
   // usecase
   sl.registerLazySingleton(() => PickFileFromLocalStorage(sl()));
+  sl.registerLazySingleton(() => SaveToLocalStorage(sl()));
 
   // repository
   sl.registerLazySingleton<FileHandlerRepository>(

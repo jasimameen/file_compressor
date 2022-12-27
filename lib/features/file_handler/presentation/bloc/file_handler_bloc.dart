@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:file_compressor/features/file_handler/domain/usecases/save_to_local_storage.dart';
+
 import '../../../../core/usecases/usecases.dart';
 import '../../file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +13,9 @@ part 'file_handler_bloc.freezed.dart';
 
 class FileHandlerBloc extends Bloc<FileHandlerEvent, FileHandlerState> {
   final PickFileFromLocalStorage _pickFileFromLocalStorage;
-  FileHandlerBloc(this._pickFileFromLocalStorage)
+  final SaveToLocalStorage _saveToLocalStorage;
+
+  FileHandlerBloc(this._pickFileFromLocalStorage, this._saveToLocalStorage)
       : super(FileHandlerState.initial()) {
     on<_PickFile>((event, emit) async {
       // loading state
@@ -29,6 +35,11 @@ class FileHandlerBloc extends Bloc<FileHandlerEvent, FileHandlerState> {
           ),
         ),
       );
+    });
+
+    on<_SaveFile>((event, emit) async {
+      final fileParam = SaveParams(File('no_use_now.txt'));
+      await _saveToLocalStorage(fileParam);
     });
   }
 }
