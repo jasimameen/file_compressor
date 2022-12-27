@@ -34,24 +34,24 @@ class FileHandlerLocalDataSourceImpl implements FileHandlerLocalDataSource {
   @override
   Future<bool> saveFile(String fileName, List<int> bytes) async {
     try {
-      final   dir = await path.getExternalStorageDirectory(); // only on Android
+      final dir = await path.getExternalStorageDirectory(); // only on Android
+
+      if (dir == null) throw FileSaveException('Not an Android Platform');
 
       // create folder
-      final folder =
-          await Directory("${dir!.path}/Compressed Files")
-              .create(recursive: true);
+      final folder = await Directory("${dir.path}/Compressed Files")
+          .create(recursive: true);
 
-      File dummyFile = File('${folder.path}/$fileName');
+      // create a file
+      final outFile = File('${folder.path}/$fileName');
 
-      log(dummyFile.path);
-
-      // write some text inside it
-      await dummyFile.writeAsBytes(bytes);
+      // write content into the file
+      await outFile.writeAsBytes(bytes);
 
       return true;
     } catch (e) {
       log(e.toString());
-      return false;
+      throw FileSaveException(e.toString());
     }
   }
 }
