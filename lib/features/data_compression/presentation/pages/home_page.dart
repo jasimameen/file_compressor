@@ -1,4 +1,5 @@
 import 'package:file_compressor/core/constants/constants.dart';
+import 'package:file_compressor/core/utils/toast_message.dart';
 
 import '../bloc/compression_bloc.dart';
 import '../widgets/custom_button.dart';
@@ -24,16 +25,22 @@ class HomePage extends StatelessWidget {
             kHeight10,
             const SelectFileWidget(),
 
-            spacer, 
+            spacer,
 
             // Compress Button
             CustomButton(
-              text: 'Save a dummy file into local storage',
+              text: 'Compress File',
               color: Colors.green,
               onTap: () {
+                final selectedFile =
+                    context.read<FileHandlerBloc>().state.deviceFile;
+                if (selectedFile == null) {
+                  Toast.instance.show('No file Selected select a file first');
+                  return;
+                }
                 context
-                    .read<FileHandlerBloc>()
-                    .add(const FileHandlerEvent.saveFile());
+                    .read<CompressionBloc>()
+                    .add(CompressionEvent.compress(selectedFile));
               },
             ),
 
@@ -43,9 +50,15 @@ class HomePage extends StatelessWidget {
               text: 'Decompress',
               color: Colors.blue,
               onTap: () {
+                final selectedFile =
+                    context.read<FileHandlerBloc>().state.deviceFile;
+                if (selectedFile == null) {
+                  Toast.instance.show('No file Selected select a file first');
+                  return;
+                }
                 context
                     .read<CompressionBloc>()
-                    .add(const CompressionEvent.decompress());
+                    .add(CompressionEvent.decompress(selectedFile));
               },
             ),
             kHeight10,

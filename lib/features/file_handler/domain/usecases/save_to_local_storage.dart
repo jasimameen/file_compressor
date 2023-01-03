@@ -15,15 +15,15 @@ class SaveToLocalStorage implements UseCase<bool, SaveParams> {
 
   @override
   Future<Either<Failure, bool>> call(SaveParams params) async {
-    return await _repository.saveFileToLocalStorage(params.file);
+    return await _repository.saveFileToLocalStorage(params.bytes);
   }
 }
 
 class SaveParams extends Equatable {
-  final File file;
+  final List<int> bytes;
 
-  const SaveParams(this.file);
+  const SaveParams(this.bytes);
 
   @override
-  List<Object?> get props => [file];
+  List<Object?> get props => [bytes];
 }

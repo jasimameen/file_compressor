@@ -38,7 +38,8 @@ class FileHandlerBloc extends Bloc<FileHandlerEvent, FileHandlerState> {
     });
 
     on<_SaveFile>((event, emit) async {
-      final fileParam = SaveParams(File('no_use_now.txt'));
+      final fileContent = event.bytes;
+      final fileParam = SaveParams(fileContent);
       await _saveToLocalStorage(fileParam);
     });
   }

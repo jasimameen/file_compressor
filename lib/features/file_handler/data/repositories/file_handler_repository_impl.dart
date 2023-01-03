@@ -27,10 +27,9 @@ class FileHandlerRepositoryImpl implements FileHandlerRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> saveFileToLocalStorage(File file) async {
+  Future<Either<Failure, bool>> saveFileToLocalStorage(List<int> bytes) async {
     try {
-      final res = await _localDataSource.saveFile(
-          'dummy.txt', "Hai nothing special".codeUnits);
+      final res = await _localDataSource.saveFile('dummy.txt', bytes);
 
       return right(res);
     } on Exception catch (err) {

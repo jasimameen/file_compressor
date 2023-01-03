@@ -19,19 +19,19 @@ mixin _$FileHandlerEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pickFile,
-    required TResult Function() saveFile,
+    required TResult Function(List<int> bytes) saveFile,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pickFile,
-    TResult? Function()? saveFile,
+    TResult? Function(List<int> bytes)? saveFile,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pickFile,
-    TResult Function()? saveFile,
+    TResult Function(List<int> bytes)? saveFile,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$_PickFile implements _PickFile {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pickFile,
-    required TResult Function() saveFile,
+    required TResult Function(List<int> bytes) saveFile,
   }) {
     return pickFile();
   }
@@ -122,7 +122,7 @@ class _$_PickFile implements _PickFile {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pickFile,
-    TResult? Function()? saveFile,
+    TResult? Function(List<int> bytes)? saveFile,
   }) {
     return pickFile?.call();
   }
@@ -131,7 +131,7 @@ class _$_PickFile implements _PickFile {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pickFile,
-    TResult Function()? saveFile,
+    TResult Function(List<int> bytes)? saveFile,
     required TResult orElse(),
   }) {
     if (pickFile != null) {
@@ -181,6 +181,8 @@ abstract class _$$_SaveFileCopyWith<$Res> {
   factory _$$_SaveFileCopyWith(
           _$_SaveFile value, $Res Function(_$_SaveFile) then) =
       __$$_SaveFileCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<int> bytes});
 }
 
 /// @nodoc
@@ -190,54 +192,84 @@ class __$$_SaveFileCopyWithImpl<$Res>
   __$$_SaveFileCopyWithImpl(
       _$_SaveFile _value, $Res Function(_$_SaveFile) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? bytes = null,
+  }) {
+    return _then(_$_SaveFile(
+      null == bytes
+          ? _value._bytes
+          : bytes // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_SaveFile implements _SaveFile {
-  const _$_SaveFile();
+  const _$_SaveFile(final List<int> bytes) : _bytes = bytes;
+
+  final List<int> _bytes;
+  @override
+  List<int> get bytes {
+    if (_bytes is EqualUnmodifiableListView) return _bytes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bytes);
+  }
 
   @override
   String toString() {
-    return 'FileHandlerEvent.saveFile()';
+    return 'FileHandlerEvent.saveFile(bytes: $bytes)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_SaveFile);
+        (other.runtimeType == runtimeType &&
+            other is _$_SaveFile &&
+            const DeepCollectionEquality().equals(other._bytes, _bytes));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_bytes));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_SaveFileCopyWith<_$_SaveFile> get copyWith =>
+      __$$_SaveFileCopyWithImpl<_$_SaveFile>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() pickFile,
-    required TResult Function() saveFile,
+    required TResult Function(List<int> bytes) saveFile,
   }) {
-    return saveFile();
+    return saveFile(bytes);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? pickFile,
-    TResult? Function()? saveFile,
+    TResult? Function(List<int> bytes)? saveFile,
   }) {
-    return saveFile?.call();
+    return saveFile?.call(bytes);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? pickFile,
-    TResult Function()? saveFile,
+    TResult Function(List<int> bytes)? saveFile,
     required TResult orElse(),
   }) {
     if (saveFile != null) {
-      return saveFile();
+      return saveFile(bytes);
     }
     return orElse();
   }
@@ -275,7 +307,12 @@ class _$_SaveFile implements _SaveFile {
 }
 
 abstract class _SaveFile implements FileHandlerEvent {
-  const factory _SaveFile() = _$_SaveFile;
+  const factory _SaveFile(final List<int> bytes) = _$_SaveFile;
+
+  List<int> get bytes;
+  @JsonKey(ignore: true)
+  _$$_SaveFileCopyWith<_$_SaveFile> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

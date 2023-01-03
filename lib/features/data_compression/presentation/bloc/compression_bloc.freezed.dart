@@ -16,22 +16,23 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CompressionEvent {
+  DeviceFile get inFile => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() compress,
-    required TResult Function() decompress,
+    required TResult Function(DeviceFile inFile) compress,
+    required TResult Function(DeviceFile inFile) decompress,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? compress,
-    TResult? Function()? decompress,
+    TResult? Function(DeviceFile inFile)? compress,
+    TResult? Function(DeviceFile inFile)? decompress,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? compress,
-    TResult Function()? decompress,
+    TResult Function(DeviceFile inFile)? compress,
+    TResult Function(DeviceFile inFile)? decompress,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -54,6 +55,10 @@ mixin _$CompressionEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $CompressionEventCopyWith<CompressionEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -61,6 +66,8 @@ abstract class $CompressionEventCopyWith<$Res> {
   factory $CompressionEventCopyWith(
           CompressionEvent value, $Res Function(CompressionEvent) then) =
       _$CompressionEventCopyWithImpl<$Res, CompressionEvent>;
+  @useResult
+  $Res call({DeviceFile inFile});
 }
 
 /// @nodoc
@@ -72,13 +79,30 @@ class _$CompressionEventCopyWithImpl<$Res, $Val extends CompressionEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? inFile = null,
+  }) {
+    return _then(_value.copyWith(
+      inFile: null == inFile
+          ? _value.inFile
+          : inFile // ignore: cast_nullable_to_non_nullable
+              as DeviceFile,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$_CompressCopyWith<$Res> {
+abstract class _$$_CompressCopyWith<$Res>
+    implements $CompressionEventCopyWith<$Res> {
   factory _$$_CompressCopyWith(
           _$_Compress value, $Res Function(_$_Compress) then) =
       __$$_CompressCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({DeviceFile inFile});
 }
 
 /// @nodoc
@@ -88,54 +112,78 @@ class __$$_CompressCopyWithImpl<$Res>
   __$$_CompressCopyWithImpl(
       _$_Compress _value, $Res Function(_$_Compress) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? inFile = null,
+  }) {
+    return _then(_$_Compress(
+      null == inFile
+          ? _value.inFile
+          : inFile // ignore: cast_nullable_to_non_nullable
+              as DeviceFile,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Compress implements _Compress {
-  const _$_Compress();
+  const _$_Compress(this.inFile);
+
+  @override
+  final DeviceFile inFile;
 
   @override
   String toString() {
-    return 'CompressionEvent.compress()';
+    return 'CompressionEvent.compress(inFile: $inFile)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Compress);
+        (other.runtimeType == runtimeType &&
+            other is _$_Compress &&
+            (identical(other.inFile, inFile) || other.inFile == inFile));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, inFile);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CompressCopyWith<_$_Compress> get copyWith =>
+      __$$_CompressCopyWithImpl<_$_Compress>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() compress,
-    required TResult Function() decompress,
+    required TResult Function(DeviceFile inFile) compress,
+    required TResult Function(DeviceFile inFile) decompress,
   }) {
-    return compress();
+    return compress(inFile);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? compress,
-    TResult? Function()? decompress,
+    TResult? Function(DeviceFile inFile)? compress,
+    TResult? Function(DeviceFile inFile)? decompress,
   }) {
-    return compress?.call();
+    return compress?.call(inFile);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? compress,
-    TResult Function()? decompress,
+    TResult Function(DeviceFile inFile)? compress,
+    TResult Function(DeviceFile inFile)? decompress,
     required TResult orElse(),
   }) {
     if (compress != null) {
-      return compress();
+      return compress(inFile);
     }
     return orElse();
   }
@@ -173,14 +221,25 @@ class _$_Compress implements _Compress {
 }
 
 abstract class _Compress implements CompressionEvent {
-  const factory _Compress() = _$_Compress;
+  const factory _Compress(final DeviceFile inFile) = _$_Compress;
+
+  @override
+  DeviceFile get inFile;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CompressCopyWith<_$_Compress> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_DecompressCopyWith<$Res> {
+abstract class _$$_DecompressCopyWith<$Res>
+    implements $CompressionEventCopyWith<$Res> {
   factory _$$_DecompressCopyWith(
           _$_Decompress value, $Res Function(_$_Decompress) then) =
       __$$_DecompressCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({DeviceFile inFile});
 }
 
 /// @nodoc
@@ -190,54 +249,78 @@ class __$$_DecompressCopyWithImpl<$Res>
   __$$_DecompressCopyWithImpl(
       _$_Decompress _value, $Res Function(_$_Decompress) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? inFile = null,
+  }) {
+    return _then(_$_Decompress(
+      null == inFile
+          ? _value.inFile
+          : inFile // ignore: cast_nullable_to_non_nullable
+              as DeviceFile,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Decompress implements _Decompress {
-  const _$_Decompress();
+  const _$_Decompress(this.inFile);
+
+  @override
+  final DeviceFile inFile;
 
   @override
   String toString() {
-    return 'CompressionEvent.decompress()';
+    return 'CompressionEvent.decompress(inFile: $inFile)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Decompress);
+        (other.runtimeType == runtimeType &&
+            other is _$_Decompress &&
+            (identical(other.inFile, inFile) || other.inFile == inFile));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, inFile);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_DecompressCopyWith<_$_Decompress> get copyWith =>
+      __$$_DecompressCopyWithImpl<_$_Decompress>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() compress,
-    required TResult Function() decompress,
+    required TResult Function(DeviceFile inFile) compress,
+    required TResult Function(DeviceFile inFile) decompress,
   }) {
-    return decompress();
+    return decompress(inFile);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? compress,
-    TResult? Function()? decompress,
+    TResult? Function(DeviceFile inFile)? compress,
+    TResult? Function(DeviceFile inFile)? decompress,
   }) {
-    return decompress?.call();
+    return decompress?.call(inFile);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? compress,
-    TResult Function()? decompress,
+    TResult Function(DeviceFile inFile)? compress,
+    TResult Function(DeviceFile inFile)? decompress,
     required TResult orElse(),
   }) {
     if (decompress != null) {
-      return decompress();
+      return decompress(inFile);
     }
     return orElse();
   }
@@ -275,7 +358,14 @@ class _$_Decompress implements _Decompress {
 }
 
 abstract class _Decompress implements CompressionEvent {
-  const factory _Decompress() = _$_Decompress;
+  const factory _Decompress(final DeviceFile inFile) = _$_Decompress;
+
+  @override
+  DeviceFile get inFile;
+  @override
+  @JsonKey(ignore: true)
+  _$$_DecompressCopyWith<_$_Decompress> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

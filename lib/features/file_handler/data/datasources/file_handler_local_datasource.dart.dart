@@ -36,7 +36,7 @@ class FileHandlerLocalDataSourceImpl implements FileHandlerLocalDataSource {
     try {
       final dir = await path.getExternalStorageDirectory(); // only on Android
 
-      if (dir == null) throw FileSaveException('Not an Android Platform');
+      if (dir == null) throw const FileSaveException('Not an Android Platform');
 
       // create folder
       final folder = await Directory("${dir.path}/Compressed Files")
