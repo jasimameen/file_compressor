@@ -1,34 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/foundation.dart';
-
+import 'huffman_node.dart';
 import 'package:file_compressor/core/error/exceptions.dart';
 import 'package:file_compressor/core/utils/toast_message.dart';
-
-class Node extends Comparable<Node> {
-  String char;
-  int frequency;
-  Node? left;
-  Node? right;
-
-  Node(this.char, this.frequency, [this.left, this.right]);
-
-  bool isLeaf() {
-    return left == null && right == null;
-  }
-
-  @override
-  int compareTo(Node other) {
-    return frequency - other.frequency;
-  }
-
-  @override
-  String toString() => 'Node(char: $char, frequency: $frequency)';
-}
 
 class HuffmanEncode {
   final Map<String, int> _charFrequency = {};
@@ -36,10 +17,11 @@ class HuffmanEncode {
   final String _inputString;
 
   // create a priority queue to hold the nodes of the Huffman tree
-  final queue = PriorityQueue<Node>();
+  final queue = PriorityQueue<HuffmanNode>();
 
   HuffmanEncode(this._inputString);
 
+  /// store the count of characters and store inside a map [_charFrequency]
   void _buildCharFrequency() {
     // count frequency of each character in the input string
     for (int i = 0; i < _inputString.length; i++) {
@@ -51,27 +33,29 @@ class HuffmanEncode {
     }
   }
 
+  /// build a huffman tree using [_charFrequency] map and store inside [queue]
   void _buildHuffmanTree() {
     // add all the characters from the input string to the priority queue
     _charFrequency.forEach((char, frequency) {
-      queue.add(Node(char, frequency));
+      queue.add(HuffmanNode(char, frequency));
     });
 
     // keep building the tree until there is only one node left
     while (queue.length > 1) {
       // remove the two nodes with the lowest frequency
-      Node left = queue.removeFirst();
-      Node right = queue.removeFirst();
+      HuffmanNode left = queue.removeFirst();
+      HuffmanNode right = queue.removeFirst();
 
       // create a new node with the sum of the frequencies of the two nodes
       // and add the two nodes as its children
       int freq = left.frequency + right.frequency;
-      Node parent = Node('', freq, left, right);
+      HuffmanNode parent = HuffmanNode('', freq, left, right);
       queue.add(parent);
     }
   }
 
-  void _generateCodes(Node node, String code) {
+  /// generate a codeTree using the [_charFrequency] and create new [_charCodes] map
+  void _generateCodes(HuffmanNode node, String code) {
     log(node.toString());
     // base case: if the node is a leaf, store its code
     if (node.isLeaf()) {
@@ -83,27 +67,34 @@ class HuffmanEncode {
     _generateCodes(node.right!, '${code}1');
   }
 
-  /// used as key while decoding
-  String _generateHuffmanCodesAsJsonString() {
-    Map<String, String> dict = {};
-    log(_charCodes.toString());
-    _charCodes.forEach((key, value) {
-      log(key + value);
-      dict[value] = key;
-    });
-    log(dict.toString());
-    return jsonEncode(dict);
-  }
-
+  /// encode the inputString using the [_charCodes] dictionary
   String _encode() {
     String encoded = '';
 
     // encode each character in the input string using its Huffman code
-    for (int i = 0; i < _inputString.length; i++) {
-      encoded += _charCodes[_inputString[i]] ?? '';
+    for (var char in _inputString.split('')) {
+      encoded += _charCodes[char] ?? '';
     }
 
     return encoded;
+  }
+
+  /// build a json  map from [_charCodes] contains {"code" : "char"}
+  String _getDecodeKey() {
+    final decodeKeys = <String, String>{};
+    _charCodes.forEach((char, code) => decodeKeys[code] = char);
+    return json.encode(decodeKeys);
+  }
+
+  Future<void> _saveDecodeKeyAt(String path) async {
+    // create a File to write the huffman codes
+    File decodeKeyFile = await File(path).create(recursive: true);
+
+    decodeKeyFile.writeAsStringSync(_getDecodeKey());
+
+    // show results in app and logger
+    Toast.instance.show('Files saved at ${decodeKeyFile.parent.path}');
+    log('Files saved at ${decodeKeyFile.parent.path}');
   }
 
   Future<void> compress(File outFile) async {
@@ -128,17 +119,8 @@ class HuffmanEncode {
       // close sink
       await sink.close();
 
-      // create a File to write the huffman codes
-      File codeFile = await File('${outFile.parent.path}/key_dict.json')
-          .create(recursive: true);
-      final huffmanDict = _generateHuffmanCodesAsJsonString();
-      codeFile.writeAsStringSync(huffmanDict);
-
-      Toast.instance.show('Files saved at ${codeFile.parent.path}');
-      log('Files saved at ${codeFile.parent.path}');
-
-      log(codeFile.path);
-      log(outFile.path);
+      // save decode key
+      await _saveDecodeKeyAt('${outFile.parent.path}/key_dict.hdkey');
     } on Exception catch (err) {
       Toast.instance.show(err.toString());
       FlutterError.reportError(FlutterErrorDetails(

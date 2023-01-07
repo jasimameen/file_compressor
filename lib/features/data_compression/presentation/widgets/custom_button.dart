@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
+
 import 'package:flutter/material.dart';
 
 // custom button with fields for text, color, and function
@@ -32,12 +34,14 @@ class CustomButton extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(30),
         ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontFamily: 'Raleway',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

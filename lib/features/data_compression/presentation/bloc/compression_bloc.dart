@@ -1,6 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_compressor/core/controllers/huffman.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,9 +28,8 @@ class CompressionBloc extends Bloc<CompressionEvent, CompressionState> {
       final huffman = Huffman();
       final dir = await getExternalStorageDirectory();
 
-      
-
-      File outFile =await File('${dir!.path}/encoded_${inFile.name}').create(recursive: true);
+      File outFile = await File('${dir!.path}/encoded_${inFile.name}')
+          .create(recursive: true);
 
       final data = File(inFile.path).readAsStringSync();
 
@@ -38,17 +41,24 @@ class CompressionBloc extends Bloc<CompressionEvent, CompressionState> {
       final inFile = event.inFile;
       toast.show(inFile.path);
 
-      final huffman = Huffman();
+      // getKey
+      final initialDir = await getExternalStorageDirectory();
+      final keyPath = await FilePicker.platform
+          .pickFiles(initialDirectory: initialDir?.path)
+          .then((value) => value?.files.first)
+          .then((file) => file!.path)
+          .catchError((err) {
+            log(err.toString());
+          });
+
       final dir = await getExternalStorageDirectory();
 
-      
-
-      File outFile =await File('${dir!.path}/decoded_${inFile.name}').create(recursive: true);
-
-      final data = File(inFile.path).readAsStringSync();
+      File outFile = await File('${dir!.path}/decoded_${inFile.name}')
+          .create(recursive: true);
 
       toast.show('encoding started,,,');
-      huffman.decode(data, outFile);
+      final huffman = Huffman();
+      huffman.decode(inFile.path, keyPath!, outFile);
       Toast.instance.show('decompression available sooner');
     });
   }

@@ -25,6 +25,8 @@ class FileHandlerLocalDataSourceImpl implements FileHandlerLocalDataSource {
 
       final file = result.files.first;
 
+      log(file.path??'go hell babee!!!');
+
       return DeviceFileModel.fromPlatformFile(file);
     } catch (err) {
       throw FilePickerException(err.toString());
