@@ -28,13 +28,14 @@ class CompressionBloc extends Bloc<CompressionEvent, CompressionState> {
       final huffman = Huffman();
       final dir = await getExternalStorageDirectory();
 
-      File outFile = await File('${dir!.path}/encoded_${inFile.name}')
+      File outFile = await File('${dir!.path}/encoded_${inFile.name}.bin')
           .create(recursive: true);
 
       final data = File(inFile.path).readAsStringSync();
 
       toast.show('encoding started,,,');
       huffman.encode(data, outFile);
+      toast.show('Encoding Finished');
     });
 
     on<_Decompress>((event, emit) async {
