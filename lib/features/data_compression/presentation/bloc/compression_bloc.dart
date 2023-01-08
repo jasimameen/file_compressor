@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:file_compressor/core/controllers/huffman.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -54,7 +52,12 @@ class CompressionBloc extends Bloc<CompressionEvent, CompressionState> {
 
       final dir = await getExternalStorageDirectory();
 
-      File outFile = await File('${dir!.path}/decoded_${inFile.name}')
+      // regx to find the last extention in the file name
+      final fileExtentionRegx = RegExp(r'(?<=\.)\w+$');
+
+      // remove the last overriden file extention so file gets its original state
+      final fileName = inFile.name.replaceAll(fileExtentionRegx, '');
+      File outFile = await File('${dir!.path}/decoded_$fileName')
           .create(recursive: true);
 
       toast.show('encoding started,,,');
