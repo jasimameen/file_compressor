@@ -56,7 +56,6 @@ class HuffmanEncode {
 
   /// generate a codeTree using the [_charFrequency] and create new [_charCodes] map
   void _generateCodes(HuffmanNode node, String code) {
-    log(node.toString());
     // base case: if the node is a leaf, store its code
     if (node.isLeaf()) {
       _charCodes[node.char] = code;
@@ -68,15 +67,25 @@ class HuffmanEncode {
   }
 
   /// encode the inputString using the [_charCodes] dictionary
-  String _encode() {
-    String encoded = '';
+  Future<void> _encode(File outFile) async {
+    // StringBuffer encoded = StringBuffer();
+    final sink = outFile.openWrite();
 
     // encode each character in the input string using its Huffman code
+    List<int> tmpBytes = [];
     for (var char in _inputString.split('')) {
-      encoded += _charCodes[char] ?? '';
+      int bit = int.parse(_charCodes[char] ?? '');
+      tmpBytes.add(bit);
+      if (tmpBytes.length > 256) {
+        sink.add(tmpBytes);
+        tmpBytes.clear();
+      }
     }
+    sink.add(tmpBytes);
 
-    return encoded;
+    await sink.close();
+
+    // return encoded.toString();
   }
 
   /// build a json  map from [_charCodes] contains {"code" : "char"}
@@ -108,16 +117,18 @@ class HuffmanEncode {
       _generateCodes(root, '');
 
       // encode the input string using the Huffman codes
-      String encoded = _encode();
+      // String encoded = 
+      await _encode(outFile);
+      // log(encoded);
 
       // create a File object to write the compressed data to
-      IOSink sink = outFile.openWrite();
+      // IOSink sink = outFile.openWrite();
 
       // write the character frequency map and the encoded string to the file
-      sink.add(encoded.codeUnits);
+      // sink.add(encoded.codeUnits);
 
       // close sink
-      await sink.close();
+      // await sink.close();
 
       // save decode key
       await _saveDecodeKeyAt('${outFile.parent.path}/key_dict.hdkey');

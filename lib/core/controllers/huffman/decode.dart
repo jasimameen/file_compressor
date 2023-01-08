@@ -10,20 +10,27 @@ class HuffmanDecode {
   Future<void> decompress(
       String infilePath, String dictionaryPath, File outFile) async {
     try {
-      final encodedString = File(infilePath).readAsStringSync();
       final Map<String, dynamic> decodeKey =
           json.decode(File(dictionaryPath).readAsStringSync());
+      final readFile = await File(infilePath).open();
 
       IOSink sink = outFile.openWrite();
       String temp = '';
+      // Read the file in chunks
+      const chunkSize = 1024;
+      var chunk = Uint8List(chunkSize);
+      while (await readFile.readInto(chunk) > 0) {
+        for (var byte in chunk) {
+          // Print each bit in the byte
+          for (var i = 0; i < 8; i++) {
+            temp += ((byte >> i) & 1).toString();
+            if (!decodeKey.containsKey(temp)) continue;
 
-      for (var ch in encodedString.split('')) {
-        temp += ch;
-        if (!decodeKey.containsKey(temp)) continue;
-
-        log(temp);
-        sink.write(decodeKey[temp]);
-        temp = '';
+            log(temp);
+            sink.write(decodeKey[temp]);
+            temp = '';
+          }
+        }
       }
       log('done hehe');
     } catch (err) {
