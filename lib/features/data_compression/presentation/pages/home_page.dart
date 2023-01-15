@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:file_compressor/core/constants/constants.dart';
-import 'package:file_compressor/core/utils/toast_message.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/utils/toast_message.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 

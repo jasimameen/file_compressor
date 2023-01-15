@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:file_compressor/core/controllers/data_encoder.dart';
-import 'package:file_compressor/core/controllers/lzw/decode.dart';
-import 'package:file_compressor/core/controllers/lzw/encode.dart';
-import 'package:file_compressor/core/utils/toast_message.dart';
+import '../data_encoder.dart';
+import 'decode.dart';
+import 'encode.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 
 class LZW implements DataEncoder {
   final LZWEncode _lzwEncode;

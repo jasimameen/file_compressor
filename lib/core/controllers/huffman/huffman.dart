@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:file_compressor/core/controllers/data_encoder.dart';
-import 'package:file_compressor/core/controllers/huffman/decode.dart';
-import 'package:file_compressor/core/controllers/huffman/encode.dart';
+
+import '../data_encoder.dart';
+import 'decode.dart';
+import 'encode.dart';
 
 class Huffman implements DataEncoder {
   @override

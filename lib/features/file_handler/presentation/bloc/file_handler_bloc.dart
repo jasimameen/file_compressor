@@ -1,5 +1,5 @@
 
-import 'package:file_compressor/features/file_handler/domain/usecases/save_to_local_storage.dart';
+import '../../domain/usecases/save_to_local_storage.dart';
 
 import '../../../../core/usecases/usecases.dart';
 import '../../file_picker.dart';

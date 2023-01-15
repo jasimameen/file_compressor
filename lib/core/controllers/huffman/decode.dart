@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:file_compressor/core/utils/toast_message.dart';
+import '../../utils/toast_message.dart';
 import 'package:flutter/foundation.dart';
 
 class HuffmanDecode {

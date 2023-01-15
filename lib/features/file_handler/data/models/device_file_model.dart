@@ -1,5 +1,6 @@
-import '../../domain/entities/device_file.dart';
 import 'package:file_picker/file_picker.dart';
+
+import '../../domain/entities/device_file.dart';
 
 class DeviceFileModel extends DeviceFile {
   const DeviceFileModel({
