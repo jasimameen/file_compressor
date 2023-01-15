@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:file_compressor/core/constants/constants.dart';
 import 'package:file_compressor/core/utils/toast_message.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 import '../bloc/compression_bloc.dart';
 import '../widgets/custom_button.dart';
@@ -17,7 +20,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('File Compressor'),
+        title: const Text('LesKr'),
         centerTitle: true,
       ),
       body: Center(
@@ -67,6 +70,16 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        const dir = '/storage/emulated/0/LesKr';
+        final folder = await Directory(dir).create(recursive: true);
+    
+        File hell =
+            await File('${folder.path}hell.txt').create(recursive: true);
+        hell.writeAsStringSync('Hai how are you hehe');
+
+        log('done downlo');
+      }),
     );
   }
 }

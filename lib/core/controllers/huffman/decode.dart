@@ -4,11 +4,10 @@ import 'dart:io';
 
 import 'package:file_compressor/core/utils/toast_message.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 
 class HuffmanDecode {
   Future<void> decompress(
-      String infilePath, String dictionaryPath, File outFile) async {
+      String infilePath, File outFile, String dictionaryPath) async {
     try {
       final Map<String, dynamic> decodeKey =
           json.decode(File(dictionaryPath).readAsStringSync());

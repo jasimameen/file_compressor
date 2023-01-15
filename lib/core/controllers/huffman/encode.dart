@@ -5,7 +5,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/foundation.dart';
 import 'huffman_node.dart';
 import 'package:file_compressor/core/error/exceptions.dart';

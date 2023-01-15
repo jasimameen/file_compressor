@@ -6,5 +6,5 @@ abstract class DataEncoder {
   Future<bool> encode(String data, File outFile);
 
   /// decompress alredy encoded data
-  Future<bool> decode(String infilePath, String dictionaryPath, File outFile);
+  Future<bool> decode(String infilePath, File outFile, String dictionaryPath);
 }

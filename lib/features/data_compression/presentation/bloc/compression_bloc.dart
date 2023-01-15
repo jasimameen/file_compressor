@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:file_compressor/core/controllers/huffman.dart';
+import '../../../../core/controllers/huffman/huffman.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -62,7 +62,7 @@ class CompressionBloc extends Bloc<CompressionEvent, CompressionState> {
 
       toast.show('encoding started,,,');
       final huffman = Huffman();
-      huffman.decode(inFile.path, keyPath!, outFile);
+      huffman.decode(inFile.path, outFile, keyPath!);
       Toast.instance.show('decompression available sooner');
     });
   }

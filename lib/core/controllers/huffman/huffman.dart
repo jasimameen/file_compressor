@@ -19,9 +19,9 @@ class Huffman implements DataEncoder {
 
   @override
   Future<bool> decode(
-      String infilePath, String dictionaryPath, File outFile) async {
+      String infilePath, File outFile, String dictionaryPath) async {
     final decoder = HuffmanDecode();
-    await decoder.decompress(infilePath, dictionaryPath, outFile).onError(
+    await decoder.decompress(infilePath, outFile, dictionaryPath).onError(
       (error, stackTrace) {
         log(error.toString());
         log(stackTrace.toString());
